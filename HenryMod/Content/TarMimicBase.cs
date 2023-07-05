@@ -4,26 +4,27 @@ using RoR2;
 using RoR2.Skills;
 using System;
 using System.Collections.Generic;
+using TarMimicMod;
 using UnityEngine;
 
 namespace HenryMod.Modules.Survivors
 {
-    internal class MyCharacter : SurvivorBase
+    internal class TarMimicBase : SurvivorBase
     {
         //used when building your character using the prefabs you set up in unity
         //don't upload to thunderstore without changing this
         public override string prefabBodyName => "Henry";
 
-        public const string HENRY_PREFIX = HenryPlugin.DEVELOPER_PREFIX + "_HENRY_BODY_";
+        public const string TAR_MIMIC = TarMimicPlugin.DEVELOPER_PREFIX + "_TAR_MIMIC_BODY_";
 
         //used when registering your survivor's language tokens
-        public override string survivorTokenPrefix => HENRY_PREFIX;
+        public override string survivorTokenPrefix => TAR_MIMIC;
 
         public override BodyInfo bodyInfo { get; set; } = new BodyInfo
         {
-            bodyName = "HenryTutorialBody",
-            bodyNameToken = HENRY_PREFIX + "NAME",
-            subtitleNameToken = HENRY_PREFIX + "SUBTITLE",
+            bodyName = "TarMimicBody",
+            bodyNameToken = TAR_MIMIC + "NAME",
+            subtitleNameToken = TAR_MIMIC + "SUBTITLE",
 
             characterPortrait = Assets.mainAssetBundle.LoadAsset<Texture>("texHenryIcon"),
             bodyColor = Color.white,
@@ -201,7 +202,7 @@ namespace HenryMod.Modules.Survivors
 
             #region DefaultSkin
             //this creates a SkinDef with all default fields
-            SkinDef defaultSkin = Modules.Skins.CreateSkinDef(HENRY_PREFIX + "DEFAULT_SKIN_NAME",
+            SkinDef defaultSkin = Modules.Skins.CreateSkinDef(TAR_MIMIC + "DEFAULT_SKIN_NAME",
                 Assets.mainAssetBundle.LoadAsset<Sprite>("texMainSkin"),
                 defaultRendererinfos,
                 prefabCharacterModel.gameObject);

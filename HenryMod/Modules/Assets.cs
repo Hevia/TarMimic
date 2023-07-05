@@ -27,9 +27,9 @@ namespace HenryMod.Modules
         internal static AssetBundle mainAssetBundle;
 
         // CHANGE THIS
-        private const string assetbundleName = "myassetbundle";
+        private const string assetbundleName = "TarMimicAssetBundle";
         //change this to your project's name if/when you've renamed it
-        private const string csProjName = "HenryMod";
+        private const string csProjName = "TarMimic";
         
         internal static void Initialize()
         {

@@ -9,8 +9,7 @@ using System.Security.Permissions;
 [module: UnverifiableCode]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 
-//rename this namespace
-namespace HenryMod
+namespace TarMimicMod
 {
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
@@ -23,19 +22,15 @@ namespace HenryMod
         "UnlockableAPI"
     })]
 
-    public class HenryPlugin : BaseUnityPlugin
+    public class TarMimicPlugin : BaseUnityPlugin
     {
-        // if you don't change these you're giving permission to deprecate the mod-
-        //  please change the names to your own stuff, thanks
-        //   this shouldn't even have to be said
-        public const string MODUID = "com.rob.HenryMod";
-        public const string MODNAME = "HenryMod";
+        public const string MODUID = "com.DewDrops.TarMimic";
+        public const string MODNAME = "TarMimic";
         public const string MODVERSION = "1.0.0";
 
-        // a prefix for name tokens to prevent conflicts- please capitalize all name tokens for convention
-        public const string DEVELOPER_PREFIX = "ROB";
+        public const string DEVELOPER_PREFIX = "DEWDROPS";
 
-        public static HenryPlugin instance;
+        public static TarMimicPlugin instance;
 
         private void Awake()
         {
@@ -45,7 +40,7 @@ namespace HenryMod
             Modules.Assets.Initialize(); // load assets and read config
             Modules.Config.ReadConfig();
             Modules.States.RegisterStates(); // register states for networking
-            Modules.Buffs.RegisterBuffs(); // add and register custom buffs/debuffs
+            HenryMod.Modules.Buffs.RegisterBuffs(); // add and register custom buffs/debuffs
             Modules.Projectiles.RegisterProjectiles(); // add and register custom projectiles
             Modules.Tokens.AddTokens(); // register name tokens
             Modules.ItemDisplays.PopulateDisplays(); // collect item display prefabs for use in our display rules
