@@ -7,8 +7,9 @@ using System.IO;
 using System.Collections.Generic;
 using RoR2.UI;
 using System;
+using TarMimicMod;
 
-namespace HenryMod.Modules
+namespace TarMimic.Modules
 {
     internal static class Assets
     {
@@ -33,12 +34,6 @@ namespace HenryMod.Modules
         
         internal static void Initialize()
         {
-            if (assetbundleName == "myassetbundle")
-            {
-                Log.Error("AssetBundle name hasn't been changed. not loading any assets to avoid conflicts");
-                return;
-            }
-
             LoadAssetBundle();
             LoadSoundbank();
             PopulateAssets();

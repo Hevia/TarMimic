@@ -4,7 +4,7 @@ using RoR2.Projectile;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace HenryMod.Modules
+namespace TarMimic.Modules
 {
     internal static class Projectiles
     {
@@ -19,7 +19,7 @@ namespace HenryMod.Modules
 
         internal static void AddProjectile(GameObject projectileToAdd)
         {
-            Modules.Content.AddProjectilePrefab(projectileToAdd);
+            Content.AddProjectilePrefab(projectileToAdd);
         }
 
         private static void CreateBomb()
@@ -38,7 +38,7 @@ namespace HenryMod.Modules
             bombImpactExplosion.lifetimeAfterImpact = 0.1f;
 
             ProjectileController bombController = bombPrefab.GetComponent<ProjectileController>();
-            if (Modules.Assets.mainAssetBundle.LoadAsset<GameObject>("HenryBombGhost") != null) bombController.ghostPrefab = CreateGhostPrefab("HenryBombGhost");
+            if (Assets.mainAssetBundle.LoadAsset<GameObject>("HenryBombGhost") != null) bombController.ghostPrefab = CreateGhostPrefab("HenryBombGhost");
             bombController.startSound = "";
         }
 
@@ -71,7 +71,7 @@ namespace HenryMod.Modules
             if (!ghostPrefab.GetComponent<NetworkIdentity>()) ghostPrefab.AddComponent<NetworkIdentity>();
             if (!ghostPrefab.GetComponent<ProjectileGhostController>()) ghostPrefab.AddComponent<ProjectileGhostController>();
 
-            Modules.Assets.ConvertAllRenderersToHopooShader(ghostPrefab);
+            Assets.ConvertAllRenderersToHopooShader(ghostPrefab);
 
             return ghostPrefab;
         }

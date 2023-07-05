@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using TarMimicMod;
 using UnityEngine;
 
-namespace HenryMod.Modules
+namespace TarMimic.Modules
 {
     internal static class Materials
     {

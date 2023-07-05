@@ -1,8 +1,7 @@
 ﻿using BepInEx;
-using HenryMod.Modules.Survivors;
+using TarMimic.Modules.Survivors;
 using R2API.Utils;
 using RoR2;
-using System.Collections.Generic;
 using System.Security;
 using System.Security.Permissions;
 
@@ -37,19 +36,19 @@ namespace TarMimicMod
             instance = this;
 
             Log.Init(Logger);
-            Modules.Assets.Initialize(); // load assets and read config
-            Modules.Config.ReadConfig();
-            Modules.States.RegisterStates(); // register states for networking
-            HenryMod.Modules.Buffs.RegisterBuffs(); // add and register custom buffs/debuffs
-            Modules.Projectiles.RegisterProjectiles(); // add and register custom projectiles
-            Modules.Tokens.AddTokens(); // register name tokens
-            Modules.ItemDisplays.PopulateDisplays(); // collect item display prefabs for use in our display rules
+            TarMimic.Modules.Assets.Initialize(); // load assets and read config
+            TarMimic.Modules.Config.ReadConfig();
+            TarMimic.Modules.States.RegisterStates(); // register states for networking
+            TarMimic.Modules.Buffs.RegisterBuffs(); // add and register custom buffs/debuffs
+            TarMimic.Modules.Projectiles.RegisterProjectiles(); // add and register custom projectiles
+            TarMimic.Modules.Tokens.AddTokens(); // register name tokens
+            TarMimic.Modules.ItemDisplays.PopulateDisplays(); // collect item display prefabs for use in our display rules
 
             // survivor initialization
-            new MyCharacter().Initialize();
+            new TarMimicBase().Initialize();
 
             // now make a content pack and add it- this part will change with the next update
-            new Modules.ContentPacks().Initialize();
+            new TarMimic.Modules.ContentPacks().Initialize();
 
             Hook();
         }
@@ -67,7 +66,7 @@ namespace TarMimicMod
             // a simple stat hook, adds armor after stats are recalculated
             if (self)
             {
-                if (self.HasBuff(Modules.Buffs.armorBuff))
+                if (self.HasBuff(TarMimic.Modules.Buffs.armorBuff))
                 {
                     self.armor += 300f;
                 }

@@ -1,9 +1,9 @@
-﻿using HenryMod.SkillStates;
-using HenryMod.SkillStates.BaseStates;
+﻿using TarMimic.SkillStates;
+using TarMimic.SkillStates.BaseStates;
 using System.Collections.Generic;
 using System;
 
-namespace HenryMod.Modules
+namespace TarMimic.Modules
 {
     public static class States
     {

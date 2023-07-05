@@ -1,5 +1,5 @@
 ﻿using BepInEx.Configuration;
-using HenryMod.Modules.Characters;
+using TarMimic.Modules.Characters;
 using RoR2;
 using RoR2.Skills;
 using System;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using TarMimicMod;
 using UnityEngine;
 
-namespace HenryMod.Modules.Survivors
+namespace TarMimic.Modules.Survivors
 {
     internal class TarMimicBase : SurvivorBase
     {
@@ -22,7 +22,7 @@ namespace HenryMod.Modules.Survivors
 
         public override BodyInfo bodyInfo { get; set; } = new BodyInfo
         {
-            bodyName = "TarMimicBody",
+            bodyName = "Henry",
             bodyNameToken = TAR_MIMIC + "NAME",
             subtitleNameToken = TAR_MIMIC + "SUBTITLE",
 
@@ -90,7 +90,7 @@ namespace HenryMod.Modules.Survivors
         public override void InitializeSkills()
         {
             Modules.Skills.CreateSkillFamilies(bodyPrefab);
-            string prefix = HenryPlugin.DEVELOPER_PREFIX;
+            string prefix = TarMimicPlugin.DEVELOPER_PREFIX;
 
             #region Primary
             //Creates a skilldef for a typical primary 
