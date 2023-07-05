@@ -2,9 +2,10 @@
 using RoR2;
 using System.Collections.Generic;
 using UnityEngine;
-using HenryMod.Modules.Characters;
+using TarMimic.Modules.Characters;
+using TarMimicMod;
 
-namespace HenryMod.Modules {
+namespace TarMimic.Modules {
     // module for creating body prefabs and whatnot
     // recommended to simply avoid touching this unless you REALLY need to
     // oh boy do I need to

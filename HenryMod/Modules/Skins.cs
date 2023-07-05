@@ -2,9 +2,10 @@
 using RoR2;
 using System;
 using System.Collections.Generic;
+using TarMimicMod;
 using UnityEngine;
 
-namespace HenryMod.Modules
+namespace TarMimic.Modules
 {
     internal static class Skins
     {

@@ -3,7 +3,7 @@ using RoR2;
 using RoR2.Projectile;
 using UnityEngine;
 
-namespace HenryMod.SkillStates
+namespace TarMimic.SkillStates
 {
     public class ThrowBomb : GenericProjectileBaseState
     {

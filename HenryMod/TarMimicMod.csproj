@@ -13,9 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="HenryBank.bnk" />
     <None Remove="Modules\Characters\Henry.cs~RF6221a098.TMP" />
-    <None Remove="myassetbundle" />
+    <None Remove="TarMimicAssetBundle" />
+    <None Remove="TarMimicBank.bnk" />
   </ItemGroup>
 
 	<ItemGroup>
@@ -29,8 +29,12 @@
 	</ItemGroup>
 	
   <ItemGroup>
-    <EmbeddedResource Include="HenryBank.bnk" />
-    <EmbeddedResource Include="myassetbundle" />
+    <EmbeddedResource Include="TarMimicBank.bnk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TarMimicAssetBundle">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

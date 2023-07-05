@@ -1,16 +1,14 @@
 ﻿using BepInEx;
-using HenryMod.Modules.Survivors;
+using TarMimic.Modules.Survivors;
 using R2API.Utils;
 using RoR2;
-using System.Collections.Generic;
 using System.Security;
 using System.Security.Permissions;
 
 [module: UnverifiableCode]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 
-//rename this namespace
-namespace HenryMod
+namespace TarMimicMod
 {
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
@@ -23,38 +21,34 @@ namespace HenryMod
         "UnlockableAPI"
     })]
 
-    public class HenryPlugin : BaseUnityPlugin
+    public class TarMimicPlugin : BaseUnityPlugin
     {
-        // if you don't change these you're giving permission to deprecate the mod-
-        //  please change the names to your own stuff, thanks
-        //   this shouldn't even have to be said
-        public const string MODUID = "com.rob.HenryMod";
-        public const string MODNAME = "HenryMod";
+        public const string MODUID = "com.DewDrops.TarMimic";
+        public const string MODNAME = "TarMimic";
         public const string MODVERSION = "1.0.0";
 
-        // a prefix for name tokens to prevent conflicts- please capitalize all name tokens for convention
-        public const string DEVELOPER_PREFIX = "ROB";
+        public const string DEVELOPER_PREFIX = "DEWDROPS";
 
-        public static HenryPlugin instance;
+        public static TarMimicPlugin instance;
 
         private void Awake()
         {
             instance = this;
 
             Log.Init(Logger);
-            Modules.Assets.Initialize(); // load assets and read config
-            Modules.Config.ReadConfig();
-            Modules.States.RegisterStates(); // register states for networking
-            Modules.Buffs.RegisterBuffs(); // add and register custom buffs/debuffs
-            Modules.Projectiles.RegisterProjectiles(); // add and register custom projectiles
-            Modules.Tokens.AddTokens(); // register name tokens
-            Modules.ItemDisplays.PopulateDisplays(); // collect item display prefabs for use in our display rules
+            TarMimic.Modules.Assets.Initialize(); // load assets and read config
+            TarMimic.Modules.Config.ReadConfig();
+            TarMimic.Modules.States.RegisterStates(); // register states for networking
+            TarMimic.Modules.Buffs.RegisterBuffs(); // add and register custom buffs/debuffs
+            TarMimic.Modules.Projectiles.RegisterProjectiles(); // add and register custom projectiles
+            TarMimic.Modules.Tokens.AddTokens(); // register name tokens
+            TarMimic.Modules.ItemDisplays.PopulateDisplays(); // collect item display prefabs for use in our display rules
 
             // survivor initialization
-            new MyCharacter().Initialize();
+            new TarMimicBase().Initialize();
 
             // now make a content pack and add it- this part will change with the next update
-            new Modules.ContentPacks().Initialize();
+            new TarMimic.Modules.ContentPacks().Initialize();
 
             Hook();
         }
@@ -72,7 +66,7 @@ namespace HenryMod
             // a simple stat hook, adds armor after stats are recalculated
             if (self)
             {
-                if (self.HasBuff(Modules.Buffs.armorBuff))
+                if (self.HasBuff(TarMimic.Modules.Buffs.armorBuff))
                 {
                     self.armor += 300f;
                 }

@@ -1,8 +1,8 @@
-﻿using HenryMod.SkillStates.BaseStates;
+﻿using TarMimic.SkillStates.BaseStates;
 using RoR2;
 using UnityEngine;
 
-namespace HenryMod.SkillStates
+namespace TarMimic.SkillStates
 {
     public class SlashCombo : BaseMeleeAttack
     {

@@ -1,12 +1,13 @@
 ﻿using BepInEx.Configuration;
 using RoR2;
 using System;
-using HenryMod.Modules.Characters;
+using TarMimic.Modules.Characters;
 using UnityEngine;
 using System.Collections.Generic;
 using RoR2.Skills;
+using TarMimicMod;
 
-namespace HenryMod.Modules.Survivors
+namespace TarMimic.Modules.Survivors
 {
     internal abstract class SurvivorBase : CharacterBase
     {

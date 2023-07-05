@@ -1,16 +1,17 @@
 ﻿using RoR2;
 using System;
+using TarMimicMod;
 using UnityEngine;
 
-namespace HenryMod.Modules.Achievements
+namespace TarMimic.Modules.Achievements
 {
     internal class MasteryAchievement : BaseMasteryUnlockable
     {
-        public override string AchievementTokenPrefix => HenryPlugin.DEVELOPER_PREFIX + "_HENRY_BODY_MASTERY";
+        public override string AchievementTokenPrefix => TarMimicPlugin.DEVELOPER_PREFIX + "_HENRY_BODY_MASTERY";
         //the name of the sprite in your bundle
         public override string AchievementSpriteName => "texMasteryAchievement";
         //the token of your character's unlock achievement if you have one
-        public override string PrerequisiteUnlockableIdentifier => HenryPlugin.DEVELOPER_PREFIX + "_HENRY_BODY_UNLOCKABLE_REWARD_ID";
+        public override string PrerequisiteUnlockableIdentifier => TarMimicPlugin.DEVELOPER_PREFIX + "_HENRY_BODY_UNLOCKABLE_REWARD_ID";
 
         public override string RequiredCharacterBody => "HenryBody";
         //difficulty coeff 3 is monsoon. 3.5 is typhoon for grandmastery skins

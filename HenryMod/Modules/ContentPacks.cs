@@ -3,14 +3,15 @@ using RoR2.ContentManagement;
 using RoR2.Skills;
 using System;
 using System.Collections.Generic;
+using TarMimicMod;
 using UnityEngine;
 
-namespace HenryMod.Modules
+namespace TarMimic.Modules
 {
     internal class ContentPacks : IContentPackProvider
     {
         internal ContentPack contentPack = new ContentPack();
-        public string identifier => HenryPlugin.MODUID;
+        public string identifier => TarMimicPlugin.MODUID;
 
         public static List<GameObject> bodyPrefabs = new List<GameObject>();
         public static List<GameObject> masterPrefabs = new List<GameObject>();
