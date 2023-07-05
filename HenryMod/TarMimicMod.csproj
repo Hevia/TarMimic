@@ -29,7 +29,9 @@
 	</ItemGroup>
 	
   <ItemGroup>
-    <EmbeddedResource Include="TarMimicBank.bnk" />
+    <EmbeddedResource Include="TarMimicBank.bnk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="TarMimicAssetBundle">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

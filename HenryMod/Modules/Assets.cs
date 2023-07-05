@@ -30,7 +30,7 @@ namespace TarMimic.Modules
         // CHANGE THIS
         private const string assetbundleName = "TarMimicAssetBundle";
         //change this to your project's name if/when you've renamed it
-        private const string csProjName = "TarMimic";
+        private const string csProjName = "TarMimicMod";
         
         internal static void Initialize()
         {
