@@ -16,6 +16,7 @@ namespace TarMimic.SkillStates
 
         private float rollSpeed;
         private Vector3 forwardDirection;
+        private Vector3 upwardsDirection;
         private Animator animator;
         private Vector3 previousPosition;
 
@@ -39,7 +40,7 @@ namespace TarMimic.SkillStates
 
             if (base.characterMotor && base.characterDirection)
             {
-                base.characterMotor.velocity.y = 0f;
+                base.characterMotor.velocity.y = this.rollSpeed;
                 base.characterMotor.velocity = this.forwardDirection * this.rollSpeed;
             }
 

@@ -37,6 +37,11 @@ namespace TarMimic.Modules
             bombImpactExplosion.timerAfterImpact = true;
             bombImpactExplosion.lifetimeAfterImpact = 0.1f;
 
+            bombImpactExplosion.applyDot = true;
+            bombImpactExplosion.dotDuration = 0.4f;
+            bombImpactExplosion.dotDamageMultiplier = 1;
+            bombImpactExplosion.dotIndex = DotController.DotIndex.Burn;
+
             ProjectileController bombController = bombPrefab.GetComponent<ProjectileController>();
             if (Assets.mainAssetBundle.LoadAsset<GameObject>("HenryBombGhost") != null) bombController.ghostPrefab = CreateGhostPrefab("HenryBombGhost");
             bombController.startSound = "";

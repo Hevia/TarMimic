@@ -13,6 +13,11 @@ namespace TarMimic.SkillStates
         public static float recoil = 3f;
         public static float range = 256f;
         public static GameObject tracerEffectPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/Tracers/TracerGoldGat");
+        public static float minSpread = 0.5f;
+        public static float maxSpread = 2f;
+        public static uint bulletCount = 6;
+
+
 
         private float duration;
         private float fireTime;
@@ -50,27 +55,27 @@ namespace TarMimic.SkillStates
                     Ray aimRay = base.GetAimRay();
                     base.AddRecoil(-1f * Shoot.recoil, -2f * Shoot.recoil, -0.5f * Shoot.recoil, 0.5f * Shoot.recoil);
 
-                    new BulletAttack
+                    // TODO: Make configurable
+                    float spread = 5.5f;
+
+                    var bulletAttack = new BulletAttack
                     {
-                        bulletCount = 1,
                         aimVector = aimRay.direction,
                         origin = aimRay.origin,
                         damage = Shoot.damageCoefficient * this.damageStat,
                         damageColorIndex = DamageColorIndex.Default,
-                        damageType = DamageType.Generic,
-                        falloffModel = BulletAttack.FalloffModel.DefaultBullet,
+                        damageType = DamageType.ClayGoo,
+                        falloffModel = BulletAttack.FalloffModel.Buckshot,
                         maxDistance = Shoot.range,
                         force = Shoot.force,
                         hitMask = LayerIndex.CommonMasks.bullet,
-                        minSpread = 0f,
-                        maxSpread = 0f,
                         isCrit = base.RollCrit(),
                         owner = base.gameObject,
                         muzzleName = muzzleString,
                         smartCollision = false,
                         procChainMask = default(ProcChainMask),
                         procCoefficient = procCoefficient,
-                        radius = 0.75f,
+                        radius = 1f,
                         sniper = false,
                         stopperMask = LayerIndex.CommonMasks.bullet,
                         weapon = null,
@@ -78,8 +83,25 @@ namespace TarMimic.SkillStates
                         spreadPitchScale = 0f,
                         spreadYawScale = 0f,
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
-                        hitEffectPrefab = EntityStates.Commando.CommandoWeapon.FirePistol2.hitEffectPrefab,
-                    }.Fire();
+                        hitEffectPrefab = EntityStates.Commando.CommandoWeapon.FireBarrage.hitEffectPrefab,
+                        HitEffectNormal = false
+                    };
+
+                    bulletAttack.minSpread = 0;
+                    bulletAttack.maxSpread = 0;
+                    bulletAttack.bulletCount = 1;
+                    bulletAttack.Fire();
+
+                    uint secondShot = (uint)Mathf.CeilToInt(bulletCount / 2f) - 1;
+                    bulletAttack.minSpread = 0;
+                    bulletAttack.maxSpread = spread / 1.45f;
+                    bulletAttack.bulletCount = secondShot;
+                    bulletAttack.Fire();
+
+                    bulletAttack.minSpread = spread / 1.45f;
+                    bulletAttack.maxSpread = spread;
+                    bulletAttack.bulletCount = (uint)Mathf.FloorToInt(bulletCount / 2f);
+                    bulletAttack.Fire();
                 }
             }
         }
