@@ -31,16 +31,12 @@ namespace TarMimic.SkillStates
             }
 
             Vector3 rhs = base.characterDirection ? base.characterDirection.forward : this.forwardDirection;
-            Vector3 rhs2 = Vector3.Cross(Vector3.up, rhs);
-
-            float num = Vector3.Dot(this.forwardDirection, rhs);
-            float num2 = Vector3.Dot(this.forwardDirection, rhs2);
 
             this.RecalculateRollSpeed();
 
             if (base.characterMotor && base.characterDirection)
             {
-                base.characterMotor.velocity.y = this.rollSpeed;
+                this.forwardDirection.y += 2f;
                 base.characterMotor.velocity = this.forwardDirection * this.rollSpeed;
             }
 
@@ -76,7 +72,7 @@ namespace TarMimic.SkillStates
                 Vector3 vector = normalized * this.rollSpeed;
                 float d = Mathf.Max(Vector3.Dot(vector, this.forwardDirection), 0f);
                 vector = this.forwardDirection * d;
-                vector.y = 0f;
+                vector.y = 5f;
 
                 base.characterMotor.velocity = vector;
             }
