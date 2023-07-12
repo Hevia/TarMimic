@@ -28,15 +28,15 @@ namespace TarMimic.SkillStates
             if (base.isAuthority && base.inputBank && base.characterDirection)
             {
                 this.forwardDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.characterDirection.forward : base.inputBank.moveVector).normalized;
+                this.forwardDirection = new Vector3(this.forwardDirection.x, (this.forwardDirection.y + 2.5f), this.forwardDirection.z);
+                this.forwardDirection = this.forwardDirection + Vector3.up;
             }
-
-            Vector3 rhs = base.characterDirection ? base.characterDirection.forward : this.forwardDirection;
 
             this.RecalculateRollSpeed();
 
             if (base.characterMotor && base.characterDirection)
             {
-                this.forwardDirection.y += 2f;
+                this.forwardDirection.y += 1f;
                 base.characterMotor.velocity = this.forwardDirection * this.rollSpeed;
             }
 
@@ -72,7 +72,6 @@ namespace TarMimic.SkillStates
                 Vector3 vector = normalized * this.rollSpeed;
                 float d = Mathf.Max(Vector3.Dot(vector, this.forwardDirection), 0f);
                 vector = this.forwardDirection * d;
-                vector.y = 5f;
 
                 base.characterMotor.velocity = vector;
             }
