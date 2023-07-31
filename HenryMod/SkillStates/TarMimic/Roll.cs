@@ -8,15 +8,15 @@ namespace TarMimic.SkillStates
     public class Roll : BaseSkillState
     {
         public static float duration = 0.5f;
-        public static float initialSpeedCoefficient = 5f;
-        public static float finalSpeedCoefficient = 2.5f;
+        public static float initialSpeedCoefficient = 4f; // prev: 2.5
+        public static float finalSpeedCoefficient = 2.0f; // prev: 2
+        public static float rollYOffset = 0.25f; //prev: 0.55f
 
         public static string dodgeSoundString = "HenryRoll";
         public static float dodgeFOV = EntityStates.Commando.DodgeState.dodgeFOV;
 
         private float rollSpeed;
-        private Vector3 forwardDirection;
-        private Vector3 upwardsDirection;
+        private Vector3 rollDirection;
         private Animator animator;
         private Vector3 previousPosition;
 
@@ -27,17 +27,15 @@ namespace TarMimic.SkillStates
 
             if (base.isAuthority && base.inputBank && base.characterDirection)
             {
-                this.forwardDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.characterDirection.forward : base.inputBank.moveVector).normalized;
-                this.forwardDirection = new Vector3(this.forwardDirection.x, (this.forwardDirection.y + 2.5f), this.forwardDirection.z);
-                this.forwardDirection = this.forwardDirection + Vector3.up;
+                this.rollDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.characterDirection.forward : base.inputBank.moveVector).normalized;
+                this.rollDirection = new Vector3(this.rollDirection.x, (this.rollDirection.y + rollYOffset), this.rollDirection.z);
             }
 
             this.RecalculateRollSpeed();
 
             if (base.characterMotor && base.characterDirection)
             {
-                this.forwardDirection.y += 1f;
-                base.characterMotor.velocity = this.forwardDirection * this.rollSpeed;
+                base.characterMotor.velocity = this.rollDirection * this.rollSpeed;
             }
 
             Vector3 b = base.characterMotor ? base.characterMotor.velocity : Vector3.zero;
@@ -48,8 +46,8 @@ namespace TarMimic.SkillStates
 
             if (NetworkServer.active)
             {
-                base.characterBody.AddTimedBuff(Modules.Buffs.armorBuff, 3f * Roll.duration);
-                base.characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 0.5f * Roll.duration);
+                base.characterBody.AddTimedBuff(Modules.Buffs.armorBuff, 7f * Roll.duration);
+                base.characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 4f * Roll.duration);
             }
         }
 
@@ -63,15 +61,15 @@ namespace TarMimic.SkillStates
             base.FixedUpdate();
             this.RecalculateRollSpeed();
 
-            if (base.characterDirection) base.characterDirection.forward = this.forwardDirection;
+            if (base.characterDirection) base.characterDirection.forward = this.rollDirection;
             if (base.cameraTargetParams) base.cameraTargetParams.fovOverride = Mathf.Lerp(Roll.dodgeFOV, 60f, base.fixedAge / Roll.duration);
 
             Vector3 normalized = (base.transform.position - this.previousPosition).normalized;
             if (base.characterMotor && base.characterDirection && normalized != Vector3.zero)
             {
                 Vector3 vector = normalized * this.rollSpeed;
-                float d = Mathf.Max(Vector3.Dot(vector, this.forwardDirection), 0f);
-                vector = this.forwardDirection * d;
+                float d = Mathf.Max(Vector3.Dot(vector, this.rollDirection), 0f);
+                vector = this.rollDirection * d;
 
                 base.characterMotor.velocity = vector;
             }
@@ -95,13 +93,13 @@ namespace TarMimic.SkillStates
         public override void OnSerialize(NetworkWriter writer)
         {
             base.OnSerialize(writer);
-            writer.Write(this.forwardDirection);
+            writer.Write(this.rollDirection);
         }
 
         public override void OnDeserialize(NetworkReader reader)
         {
             base.OnDeserialize(reader);
-            this.forwardDirection = reader.ReadVector3();
+            this.rollDirection = reader.ReadVector3();
         }
     }
 }

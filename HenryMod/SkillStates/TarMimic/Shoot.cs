@@ -10,12 +10,12 @@ namespace TarMimic.SkillStates
         public static float procCoefficient = 1f;
         public static float baseDuration = 0.6f;
         public static float force = 800f;
-        public static float recoil = 3f;
-        public static float range = 256f;
+        public static float recoil = 4f;
+        public static float range = 100f; // prev: 233, 256
         public static GameObject tracerEffectPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/Tracers/TracerGoldGat");
-        public static float minSpread = 0.5f;
-        public static float maxSpread = 2f;
-        public static uint bulletCount = 6;
+        public static float minSpread = 2f; // prev: 2f, 0.5f
+        public static float maxSpread = 4f; // prev: 4f, 2f
+        public static uint bulletCount = 6; // prev: 5, 6
 
 
 
@@ -87,19 +87,19 @@ namespace TarMimic.SkillStates
                         HitEffectNormal = false
                     };
 
-                    bulletAttack.minSpread = 0;
-                    bulletAttack.maxSpread = 0;
+                    bulletAttack.minSpread = minSpread; // prev: 0
+                    bulletAttack.maxSpread = maxSpread; //prev: 0
                     bulletAttack.bulletCount = 1;
                     bulletAttack.Fire();
 
                     uint secondShot = (uint)Mathf.CeilToInt(bulletCount / 2f) - 1;
-                    bulletAttack.minSpread = 0;
-                    bulletAttack.maxSpread = spread / 1.45f;
+                    bulletAttack.minSpread = minSpread; // prev: 0
+                    bulletAttack.maxSpread = maxSpread * 1.45f; // prev: spread / 1.45
                     bulletAttack.bulletCount = secondShot;
                     bulletAttack.Fire();
 
-                    bulletAttack.minSpread = spread / 1.45f;
-                    bulletAttack.maxSpread = spread;
+                    bulletAttack.minSpread = minSpread * 1.45f; // prev: spread / 1.45
+                    bulletAttack.maxSpread = maxSpread * 2f; // prev: spread
                     bulletAttack.bulletCount = (uint)Mathf.FloorToInt(bulletCount / 2f);
                     bulletAttack.Fire();
                 }

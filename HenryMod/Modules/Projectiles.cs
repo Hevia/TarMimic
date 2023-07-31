@@ -67,7 +67,7 @@ namespace TarMimic.Modules
             projectileImpactExplosion.offsetForLifetimeExpiredSound = 0f;
             projectileImpactExplosion.timerAfterImpact = false;
 
-            projectileImpactExplosion.GetComponent<ProjectileDamage>().damageType = DamageType.Generic;
+            projectileImpactExplosion.GetComponent<ProjectileDamage>().damageType = DamageType.SlowOnHit; //prev: Generic
         }
 
         private static GameObject CreateGhostPrefab(string ghostName)
