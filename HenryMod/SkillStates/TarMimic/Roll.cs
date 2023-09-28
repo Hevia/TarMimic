@@ -10,7 +10,7 @@ namespace TarMimic.SkillStates
         public static float duration = 0.5f;
         public static float initialSpeedCoefficient = 4f; // prev: 2.5
         public static float finalSpeedCoefficient = 2.0f; // prev: 2
-        public static float rollYOffset = 0.25f; //prev: 0.55f
+        public static float rollYOffset = 0.55f; //prev: 0.25 0.55f
 
         public static string dodgeSoundString = "HenryRoll";
         public static float dodgeFOV = EntityStates.Commando.DodgeState.dodgeFOV;
