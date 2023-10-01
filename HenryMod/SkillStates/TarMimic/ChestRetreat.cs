@@ -11,16 +11,20 @@ namespace TarMimic.SkillStates
 {
     public class ChestRetreat : BaseSkillState
     {
-        public static float duration = 0.2f;
-        public static float initialSpeedCoefficient = 1.25f; // prev: 4 2.5
-        public static float finalSpeedCoefficient = 2.0f; // prev: 2 2
+        public static float duration = 0.5f;
+        public static float initialSpeedCoefficient = 2.0f; // prev: 1.25 4 2.5
+        public static float finalSpeedCoefficient = 6.0f; // prev: 2  2 2
         public static float rollYOffset = -1.25f; //prev: 1.25 0.25 0.55f
-        private static float defaultGravity => Physics.gravity.y;
+        public static float baseRadius = 10f;
+        public static float baseForce = 50f;
+        public static float dmgMod = 20f;
+        
 
         public static string dodgeSoundString = "HenryRoll";
         public static float dodgeFOV = EntityStates.Commando.DodgeState.dodgeFOV;
 
         public static GameObject impactEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Beetle/BeetleAcidImpact.prefab").WaitForCompletion();
+        private static BuffDef chestBuff = RoR2Content.Buffs.Immune;
 
         private float rollSpeed;
         private Animator animator;
@@ -56,7 +60,7 @@ namespace TarMimic.SkillStates
             {
                 //base.characterBody.AddTimedBuff(Modules.Buffs.armorBuff, 7f * Roll.duration);
                 //base.characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
-                base.characterBody.AddTimedBuff(RoR2Content.Buffs.Fruiting, 4f * Roll.duration);
+                base.characterBody.AddBuff(chestBuff);
             }
         }
 
@@ -100,20 +104,20 @@ namespace TarMimic.SkillStates
                 EffectManager.SpawnEffect(impactEffect, new EffectData
                 {
                     origin = footPosition,
-                    scale = 10f
+                    scale = 1
                 }, transmit: true);
 
                 var result = new BlastAttack
                 {
                     attacker = base.gameObject,
-                    baseDamage = damageStat * 10f, // 5f 1f
-                    baseForce = 50f, // 15f 10f
+                    baseDamage = damageStat * dmgMod + rollSpeed, // 5f 1f
+                    baseForce = baseForce + rollSpeed,
                     bonusForce = Vector3.back, // up
                     crit = false, //isCritAuthority,
                     damageType = DamageType.Stun1s,
-                    falloffModel = BlastAttack.FalloffModel.SweetSpot, // None
+                    falloffModel = BlastAttack.FalloffModel.None, // None
                     procCoefficient = 0.5f,
-                    radius = 10f, //5f
+                    radius = baseRadius + rollSpeed, //5f
                     position = base.characterBody.footPosition,
                     attackerFiltering = AttackerFiltering.NeverHitSelf,
                     impactEffect = EffectCatalog.FindEffectIndexFromPrefab(impactEffect),
@@ -128,14 +132,15 @@ namespace TarMimic.SkillStates
 
                         if (hurtBox != null)
                         {
-                            Vector3 trajec = new Vector3(100, 100, 100);
-                            hurtBox.healthComponent.TakeDamageForce((trajec * 40), alwaysApply: true, disableAirControlUntilCollision: true);
+                            Vector3 trajec = new Vector3(100, 100 + rollSpeed, 100);
+                            hurtBox.healthComponent.TakeDamageForce((trajec * (40 + rollSpeed)), alwaysApply: true, disableAirControlUntilCollision: true);
                         }
                     }
                 }
             }
 
             if (base.cameraTargetParams) base.cameraTargetParams.fovOverride = -1f;
+            base.characterBody.RemoveBuff(chestBuff);
             base.OnExit();
 
             base.characterMotor.disableAirControlUntilCollision = false;

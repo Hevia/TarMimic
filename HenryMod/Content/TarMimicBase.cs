@@ -92,7 +92,6 @@ namespace TarMimic.Modules.Survivors
             Modules.Skills.CreateSkillFamilies(bodyPrefab);
             string prefix = TarMimicPlugin.DEVELOPER_PREFIX;
 
-            #region Primary
             SkillDef shootSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = prefix + "_HENRY_BODY_SECONDARY_GUN_NAME",
@@ -120,9 +119,7 @@ namespace TarMimic.Modules.Survivors
 
 
             Modules.Skills.AddPrimarySkills(bodyPrefab, shootSkillDef);
-            #endregion
 
-            #region Secondary
             SkillDef bombSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = prefix + "_HENRY_BODY_SPECIAL_BOMB_NAME",
@@ -148,9 +145,8 @@ namespace TarMimic.Modules.Survivors
             });
 
             Modules.Skills.AddSecondarySkills(bodyPrefab, bombSkillDef);
-            #endregion
+          
 
-            #region Utility
             SkillDef rollSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = prefix + "_HENRY_BODY_UTILITY_ROLL_NAME",
@@ -176,9 +172,7 @@ namespace TarMimic.Modules.Survivors
             });
 
             Modules.Skills.AddUtilitySkills(bodyPrefab, rollSkillDef);
-            #endregion
 
-            #region Special
             SkillDef chestRetreatSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = prefix + "_HENRY_BODY_SPECIAL_CHEST_NAME",
@@ -188,7 +182,7 @@ namespace TarMimic.Modules.Survivors
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ChestRetreat)),
                 activationStateMachineName = "Body",
                 baseMaxStock = 1,
-                baseRechargeInterval = 10f,
+                baseRechargeInterval = 7f,
                 beginSkillCooldownOnSkillEnd = false,
                 canceledFromSprinting = false,
                 forceSprintDuringState = false,
@@ -204,7 +198,6 @@ namespace TarMimic.Modules.Survivors
             });
 
             Modules.Skills.AddSpecialSkills(bodyPrefab, chestRetreatSkillDef);
-            #endregion
         }
         
         public override void InitializeSkins()
