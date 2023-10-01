@@ -23,7 +23,7 @@ namespace TarMimic.SkillStates
         public static string dodgeSoundString = "HenryRoll";
         public static float dodgeFOV = EntityStates.Commando.DodgeState.dodgeFOV;
 
-        public static GameObject impactEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Beetle/BeetleAcidImpact.prefab").WaitForCompletion();
+        public static GameObject impactEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Bandit2/Bandit2SmokeBomb.prefab").WaitForCompletion();
         private static BuffDef chestBuff = RoR2Content.Buffs.Immune;
 
         private float rollSpeed;
@@ -100,6 +100,9 @@ namespace TarMimic.SkillStates
         {
             if (base.characterMotor.isGrounded)
             {
+                // TODO: Add custom sound
+                //Util.PlaySound("HenryShootPistol", base.gameObject);
+
                 Vector3 footPosition = base.characterBody.footPosition;
                 EffectManager.SpawnEffect(impactEffect, new EffectData
                 {
@@ -132,7 +135,7 @@ namespace TarMimic.SkillStates
 
                         if (hurtBox != null)
                         {
-                            Vector3 trajec = new Vector3(100, 100 + rollSpeed, 100);
+                            Vector3 trajec = new Vector3(25, 25 + rollSpeed, 25);
                             hurtBox.healthComponent.TakeDamageForce((trajec * (40 + rollSpeed)), alwaysApply: true, disableAirControlUntilCollision: true);
                         }
                     }

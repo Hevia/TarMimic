@@ -1,7 +1,5 @@
 ﻿using EntityStates;
-using KinematicCharacterController;
 using RoR2;
-using TarMimicMod;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -17,9 +15,7 @@ namespace TarMimic.SkillStates
         public static string dodgeSoundString = "HenryRoll";
         public static float dodgeFOV = EntityStates.Commando.DodgeState.dodgeFOV;
 
-        private float rollSpeed;
         private Vector3 rollDirection;
-        private Vector3 previousPosition;
         private readonly float minimumY = 4;
         private readonly float aimVelocity = 2;
         private readonly float forwardVelocity = 3;
@@ -34,7 +30,7 @@ namespace TarMimic.SkillStates
             Vector3 direction = aimRay.direction;
             if (base.isAuthority)
             {
-                //base.characterBody.isSprinting = true;
+                base.characterBody.isSprinting = false;
                 direction.y = Mathf.Max(direction.y, minimumY);
                 Vector3 val = direction.normalized * aimVelocity * moveSpeedStat;
                 Vector3 val2 = Vector3.up * upwardVelocity;
@@ -46,24 +42,6 @@ namespace TarMimic.SkillStates
 
             base.characterDirection.moveVector = direction;
 
-            //if (base.isAuthority && base.inputBank && base.characterDirection)
-            //{
-            //    this.rollDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.characterDirection.forward : base.inputBank.moveVector).normalized;
-            //    this.rollDirection = new Vector3(this.rollDirection.x, ((Vector3.up.y / 1.25f) + rollYOffset), this.rollDirection.z);
-            //    //this.rollDirection = new Vector3(1.0f, 1.5f, 0f);
-            //    Log.Message("DEBUGGER Roll rollDirection: " + this.rollDirection.ToString());
-            //}
-
-            //this.RecalculateRollSpeed();
-
-            //if (base.characterMotor && base.characterDirection)
-            //{
-            //    base.characterMotor.velocity = this.rollDirection * this.rollSpeed;
-            //}
-
-            //Vector3 b = base.characterMotor ? base.characterMotor.velocity : Vector3.zero;
-            //this.previousPosition = base.transform.position - b;
-
             base.PlayAnimation("FullBody, Override", "Roll", "Roll.playbackRate", Roll.duration);
             Util.PlaySound(Roll.dodgeSoundString, base.gameObject);
 
@@ -73,36 +51,12 @@ namespace TarMimic.SkillStates
             }
         }
 
-        private void RecalculateRollSpeed()
-        {
-            this.rollSpeed = this.moveSpeedStat * Mathf.Lerp(Roll.initialSpeedCoefficient, Roll.finalSpeedCoefficient, base.fixedAge / Roll.duration);
-        }
-
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-            //this.RecalculateRollSpeed();
 
-            //if (base.characterDirection) base.characterDirection.forward = this.rollDirection;
             if (base.cameraTargetParams) base.cameraTargetParams.fovOverride = Mathf.Lerp(Roll.dodgeFOV, 60f, base.fixedAge / Roll.duration);
             base.characterMotor.moveDirection = base.inputBank.moveVector;
-
-            //Vector3 normalized = (base.transform.position - this.previousPosition).normalized;
-            //if (base.characterMotor && base.characterDirection && normalized != Vector3.zero)
-            //{
-            //    Vector3 vector = normalized * this.rollSpeed;
-            //    float d = Mathf.Max(Vector3.Dot(vector, this.rollDirection), 0f);
-            //    vector = this.rollDirection * d;
-
-            //    base.characterMotor.velocity = vector;
-            //}
-            //this.previousPosition = base.transform.position;
-
-            //if (base.isAuthority && base.fixedAge >= Roll.duration)
-            //{
-            //    this.outer.SetNextStateToMain();
-            //    return;
-            //}
 
             if (base.isAuthority && base.characterMotor.isGrounded)
             {
