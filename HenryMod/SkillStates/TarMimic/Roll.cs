@@ -20,10 +20,10 @@ namespace TarMimic.SkillStates
         private float rollSpeed;
         private Vector3 rollDirection;
         private Vector3 previousPosition;
-        private readonly float minimumY;
-        private readonly float aimVelocity;
-        private readonly float forwardVelocity;
-        private readonly float upwardVelocity;
+        private readonly float minimumY = 4;
+        private readonly float aimVelocity = 2;
+        private readonly float forwardVelocity = 3;
+        private readonly float upwardVelocity = 5;
 
         public override void OnEnter()
         {
@@ -34,7 +34,7 @@ namespace TarMimic.SkillStates
             Vector3 direction = aimRay.direction;
             if (base.isAuthority)
             {
-                base.characterBody.isSprinting = true;
+                //base.characterBody.isSprinting = true;
                 direction.y = Mathf.Max(direction.y, minimumY);
                 Vector3 val = direction.normalized * aimVelocity * moveSpeedStat;
                 Vector3 val2 = Vector3.up * upwardVelocity;
@@ -43,6 +43,8 @@ namespace TarMimic.SkillStates
                 base.characterMotor.Motor.ForceUnground();
                 base.characterMotor.velocity = val + val2 + val4;
             }
+
+            base.characterDirection.moveVector = direction;
 
             //if (base.isAuthority && base.inputBank && base.characterDirection)
             //{
@@ -81,8 +83,9 @@ namespace TarMimic.SkillStates
             base.FixedUpdate();
             //this.RecalculateRollSpeed();
 
-            if (base.characterDirection) base.characterDirection.forward = this.rollDirection;
+            //if (base.characterDirection) base.characterDirection.forward = this.rollDirection;
             if (base.cameraTargetParams) base.cameraTargetParams.fovOverride = Mathf.Lerp(Roll.dodgeFOV, 60f, base.fixedAge / Roll.duration);
+            base.characterMotor.moveDirection = base.inputBank.moveVector;
 
             //Vector3 normalized = (base.transform.position - this.previousPosition).normalized;
             //if (base.characterMotor && base.characterDirection && normalized != Vector3.zero)
