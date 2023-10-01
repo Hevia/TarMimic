@@ -1,33 +1,42 @@
 ﻿using EntityStates;
 using RoR2;
+using System;
+using System.Linq;
 using TarMimicMod;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 
 namespace TarMimic.SkillStates
 {
     public class ChestRetreat : BaseSkillState
     {
-        public static float duration = 0.5f;
+        public static float duration = 0.2f;
         public static float initialSpeedCoefficient = 1.25f; // prev: 4 2.5
         public static float finalSpeedCoefficient = 2.0f; // prev: 2 2
         public static float rollYOffset = -1.25f; //prev: 1.25 0.25 0.55f
+        private static float defaultGravity => Physics.gravity.y;
 
         public static string dodgeSoundString = "HenryRoll";
         public static float dodgeFOV = EntityStates.Commando.DodgeState.dodgeFOV;
 
+        public static GameObject impactEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Beetle/BeetleAcidImpact.prefab").WaitForCompletion();
+
         private float rollSpeed;
+        private Animator animator;
         private Vector3 rollDirection;
         private Vector3 previousPosition;
 
         public override void OnEnter()
         {
             base.OnEnter();
+            this.animator = base.GetModelAnimator();
 
             if (base.isAuthority && base.inputBank && base.characterDirection)
             {
                 //this.rollDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.characterDirection.forward : base.inputBank.moveVector).normalized;
                 this.rollDirection = new Vector3(0, ((Vector3.down.y / 2) + rollYOffset), 0);
+                
             }
 
             this.RecalculateRollSpeed();
@@ -75,7 +84,8 @@ namespace TarMimic.SkillStates
             }
             this.previousPosition = base.transform.position;
 
-            if (base.isAuthority && base.fixedAge >= Roll.duration)
+            // prev: based on roll duration
+            if (base.isAuthority  && base.characterMotor.isGrounded)
             {
                 this.outer.SetNextStateToMain();
                 return;
@@ -86,7 +96,14 @@ namespace TarMimic.SkillStates
         {
             if (base.characterMotor.isGrounded)
             {
-                new BlastAttack
+                Vector3 footPosition = base.characterBody.footPosition;
+                EffectManager.SpawnEffect(impactEffect, new EffectData
+                {
+                    origin = footPosition,
+                    scale = 10f
+                }, transmit: true);
+
+                var result = new BlastAttack
                 {
                     attacker = base.gameObject,
                     baseDamage = damageStat * 10f, // 5f 1f
@@ -99,12 +116,23 @@ namespace TarMimic.SkillStates
                     radius = 10f, //5f
                     position = base.characterBody.footPosition,
                     attackerFiltering = AttackerFiltering.NeverHitSelf,
-                    //impactEffect = EffectCatalog.FindEffectIndexFromPrefab(blastImpactEffectPrefab),
+                    impactEffect = EffectCatalog.FindEffectIndexFromPrefab(impactEffect),
                     teamIndex = base.teamComponent.teamIndex,
                 }.Fire();
 
-                //this.outer.SetNextStateToMain();
-                //return;
+                if (result.hitPoints.Length > 0)
+                {
+                    foreach (BlastAttack.HitPoint item in result.hitPoints)
+                    {
+                        var hurtBox = item.hurtBox;
+
+                        if (hurtBox != null)
+                        {
+                            Vector3 trajec = new Vector3(100, 100, 100);
+                            hurtBox.healthComponent.TakeDamageForce((trajec * 40), alwaysApply: true, disableAirControlUntilCollision: true);
+                        }
+                    }
+                }
             }
 
             if (base.cameraTargetParams) base.cameraTargetParams.fovOverride = -1f;

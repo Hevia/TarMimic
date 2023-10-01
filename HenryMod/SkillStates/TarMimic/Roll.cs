@@ -1,5 +1,6 @@
 ﻿using EntityStates;
 using RoR2;
+using TarMimicMod;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -10,25 +11,25 @@ namespace TarMimic.SkillStates
         public static float duration = 0.5f;
         public static float initialSpeedCoefficient = 1.25f; // prev: 4 2.5
         public static float finalSpeedCoefficient = 2.0f; // prev: 2 2
-        public static float rollYOffset = 0.25f; //prev: 1.25 0.25 0.55f
+        public static float rollYOffset = 0.65f; //prev: 0.35 1.25 0.25 0.55f
 
         public static string dodgeSoundString = "HenryRoll";
         public static float dodgeFOV = EntityStates.Commando.DodgeState.dodgeFOV;
 
         private float rollSpeed;
         private Vector3 rollDirection;
-        private Animator animator;
         private Vector3 previousPosition;
 
         public override void OnEnter()
         {
             base.OnEnter();
-            this.animator = base.GetModelAnimator();
 
             if (base.isAuthority && base.inputBank && base.characterDirection)
             {
                 this.rollDirection = ((base.inputBank.moveVector == Vector3.zero) ? base.characterDirection.forward : base.inputBank.moveVector).normalized;
                 this.rollDirection = new Vector3(this.rollDirection.x, ((Vector3.up.y / 2) + rollYOffset), this.rollDirection.z);
+                //this.rollDirection = new Vector3(1.0f, 1.5f, 0f);
+                Log.Message("DEBUGGER Roll rollDirection: " + this.rollDirection.ToString());
             }
 
             this.RecalculateRollSpeed();
