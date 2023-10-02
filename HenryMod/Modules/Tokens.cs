@@ -8,7 +8,6 @@ namespace TarMimic.Modules
     {
         internal static void AddTokens()
         {
-            #region Henry
             string prefix = TarMimicPlugin.DEVELOPER_PREFIX + "_HENRY_BODY_";
 
             string desc = "Henry is a skilled fighter who makes use of a wide arsenal of weaponry to take down his foes.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine;
@@ -17,52 +16,41 @@ namespace TarMimic.Modules
             desc = desc + "< ! > Roll has a lingering armor buff that helps to use it aggressively." + Environment.NewLine + Environment.NewLine;
             desc = desc + "< ! > Bomb can be used to wipe crowds with ease." + Environment.NewLine + Environment.NewLine;
 
-            string outro = "..and so he left, searching for a new identity.";
-            string outroFailure = "..and so he vanished, forever a blank slate.";
+            string outro = "..and so they left, unsure of who they are.";
+            string outroFailure = "..and so they vanished, reduced to a pool of tar.";
 
-            LanguageAPI.Add(prefix + "NAME", "Henry");
+            LanguageAPI.Add(prefix + "NAME", "Tar Mimic");
             LanguageAPI.Add(prefix + "DESCRIPTION", desc);
-            LanguageAPI.Add(prefix + "SUBTITLE", "The Chosen One");
+            LanguageAPI.Add(prefix + "SUBTITLE", "");
             LanguageAPI.Add(prefix + "LORE", "sample lore");
             LanguageAPI.Add(prefix + "OUTRO_FLAVOR", outro);
             LanguageAPI.Add(prefix + "OUTRO_FAILURE", outroFailure);
 
-            #region Skins
             LanguageAPI.Add(prefix + "DEFAULT_SKIN_NAME", "Default");
             LanguageAPI.Add(prefix + "MASTERY_SKIN_NAME", "Alternate");
-            #endregion
 
-            #region Passive
             LanguageAPI.Add(prefix + "PASSIVE_NAME", "Henry passive");
             LanguageAPI.Add(prefix + "PASSIVE_DESCRIPTION", "Sample text.");
-            #endregion
 
-            #region Primary
             LanguageAPI.Add(prefix + "PRIMARY_SLASH_NAME", "Sword");
             LanguageAPI.Add(prefix + "PRIMARY_SLASH_DESCRIPTION", Helpers.agilePrefix + $"Swing forward for <style=cIsDamage>{100f * StaticValues.swordDamageCoefficient}% damage</style>.");
-            #endregion
 
-            #region Secondary
-            LanguageAPI.Add(prefix + "SECONDARY_GUN_NAME", "Handgun");
-            LanguageAPI.Add(prefix + "SECONDARY_GUN_DESCRIPTION", Helpers.agilePrefix + $"Fire a handgun for <style=cIsDamage>{100f * StaticValues.gunDamageCoefficient}% damage</style>.");
-            #endregion
+            LanguageAPI.Add(prefix + "PRIMARY_GUN_NAME", "Blunderbuss");
+            LanguageAPI.Add(prefix + "PRIMARY_GUN_DESCRIPTION", Helpers.agilePrefix + $"Fire a short range shotgun blast that <style=cIsUtility>Tars</style> enemies for <style=cIsDamage>{100f * StaticValues.gunDamageCoefficient}% damage</style>. Firing near enemies grants additional damage and an escape buff.");
 
-            #region Utility
-            LanguageAPI.Add(prefix + "UTILITY_ROLL_NAME", "Roll");
-            LanguageAPI.Add(prefix + "UTILITY_ROLL_DESCRIPTION", "Roll a short distance, gaining <style=cIsUtility>300 armor</style>. <style=cIsUtility>You cannot be hit during the roll.</style>");
-            #endregion
+            LanguageAPI.Add(prefix + "UTILITY_ROLL_NAME", "Launch");
+            LanguageAPI.Add(prefix + "UTILITY_ROLL_DESCRIPTION", "Unleah a blast attack at your feet and launch a short distance. <style=cIsUtility>Gain immunity to fall damage.</style> Using launch with an escape buff increases vertical distance.");
 
-            #region Special
-            LanguageAPI.Add(prefix + "SPECIAL_BOMB_NAME", "Bomb");
-            LanguageAPI.Add(prefix + "SPECIAL_BOMB_DESCRIPTION", $"Throw a bomb for <style=cIsDamage>{100f * StaticValues.bombDamageCoefficient}% damage</style>.");
-            #endregion
+            LanguageAPI.Add(prefix + "SPECIAL_CHEST_SLAM_NAME", "Chest Slam");
+            LanguageAPI.Add(prefix + "SPECIAL_CHEST_SLAM_DESCRIPTION", "Slam down to the ground stunning and knockbacking enemies. Hitting enemies grants stacks of bomb buffs.");
 
-            #region Achievements
-            LanguageAPI.Add(prefix + "MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Henry: Mastery");
-            LanguageAPI.Add(prefix + "MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Henry, beat the game or obliterate on Monsoon.");
-            LanguageAPI.Add(prefix + "MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Henry: Mastery");
-            #endregion
-            #endregion
+            LanguageAPI.Add(prefix + "SECONDARY_BOMB_NAME", "Clay Bomb");
+            LanguageAPI.Add(prefix + "SECONDARY_BOMB_DESCRIPTION", $"Throw a bomb that <style=cIsUtility>Ignites</style> enemies for <style=cIsDamage>{100f * StaticValues.bombDamageCoefficient}% damage</style>. Stacks of bomb buffs are consumed and grant additional damage.");
+
+            LanguageAPI.Add(prefix + "MASTERYUNLOCKABLE_ACHIEVEMENT_NAME", "Tar Mimic: Mastery");
+            LanguageAPI.Add(prefix + "MASTERYUNLOCKABLE_ACHIEVEMENT_DESC", "As Tar Mimic, beat the game or obliterate on Monsoon.");
+            LanguageAPI.Add(prefix + "MASTERYUNLOCKABLE_UNLOCKABLE_NAME", "Tar Mimic: Mastery");
+            
         }
     }
 }

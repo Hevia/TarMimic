@@ -10,7 +10,6 @@ namespace TarMimic.Modules
 
     internal static class Skills
     {
-        #region genericskills
         public static void CreateSkillFamilies(GameObject targetPrefab, bool destroyExisting = true)
         {
             if (destroyExisting)
@@ -44,9 +43,7 @@ namespace TarMimic.Modules
             TarMimic.Modules.Content.AddSkillFamily(newFamily);
             return skill;
         }
-        #endregion
 
-        #region skillfamilies
 
         //everything calls this
         public static void AddSkillToFamily(SkillFamily skillFamily, SkillDef skillDef, UnlockableDef unlockableDef = null)
@@ -101,9 +98,7 @@ namespace TarMimic.Modules
                 skillFamily.variants[i] = variant;
             }
         }
-        #endregion
 
-        #region skilldefs
         public static SkillDef CreateSkillDef(SkillDefInfo skillDefInfo)
         {
             return CreateSkillDef<SkillDef>(skillDefInfo);
@@ -144,7 +139,6 @@ namespace TarMimic.Modules
 
             return skillDef;
         }
-        #endregion skilldefs
     }
 
     /// <summary>
@@ -179,7 +173,6 @@ namespace TarMimic.Modules
         public bool resetCooldownTimerOnUse;
         public bool mustKeyPress;
 
-        #region constructors
         public SkillDefInfo() { }
         /// <summary>
         /// Creates a skilldef for a typical primary.
@@ -213,6 +206,5 @@ namespace TarMimic.Modules
             if (agile) this.keywordTokens = new string[] { "KEYWORD_AGILE" };
 
         }
-        #endregion construction complete
     }
 }

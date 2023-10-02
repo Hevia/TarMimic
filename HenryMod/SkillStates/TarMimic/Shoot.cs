@@ -35,7 +35,7 @@ namespace TarMimic.SkillStates
             this.muzzleString = "Muzzle";
 
             SphereSearch sphereSearch = new SphereSearch();
-            sphereSearch.radius = 1;
+            sphereSearch.radius = 4;
             sphereSearch.origin = characterBody.transform.position + this.inputBank.aimDirection;
             sphereSearch.mask = LayerIndex.entityPrecise.mask;
             sphereSearch.RefreshCandidates();

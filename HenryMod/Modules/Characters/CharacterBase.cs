@@ -107,7 +107,6 @@ namespace TarMimic.Modules.Characters
     // for simplifying characterbody creation
     internal class BodyInfo
     {
-        #region Character
         public string bodyName = "";
         public string bodyNameToken = "";
         public string subtitleNameToken = "";
@@ -124,9 +123,7 @@ namespace TarMimic.Modules.Characters
 
         public GameObject crosshair = null;
         public GameObject podPrefab = null;
-        #endregion Character
 
-        #region Stats
         //main stats
         public float maxHealth = 100f;
         public float healthRegen = 1f;
@@ -163,9 +160,7 @@ namespace TarMimic.Modules.Characters
 
         public float moveSpeedGrowth = 0f;
         public float jumpPowerGrowth = 0f;// jump power per level exists for some reason
-        #endregion Stats
 
-        #region Camera
         public Vector3 aimOriginPosition = new Vector3(0f, 1.6f, 0f);
         public Vector3 modelBasePosition = new Vector3(0f, -0.92f, 0f);
        
@@ -196,6 +191,5 @@ namespace TarMimic.Modules.Characters
             }
             set => _cameraParams = value;
         }
-        #endregion camera
     }
 }

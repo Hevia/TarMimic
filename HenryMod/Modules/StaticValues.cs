@@ -4,11 +4,11 @@ namespace TarMimic.Modules
 {
     internal static class StaticValues
     {
-        internal static string descriptionText = "Henry is a skilled fighter who makes use of a wide arsenal of weaponry to take down his foes.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine
-             + "< ! > Blunderb is a good all-rounder while Boxing Gloves are better for laying a beatdown on more powerful foes." + Environment.NewLine + Environment.NewLine
-             + "< ! > Bomb i." + Environment.NewLine + Environment.NewLine
-             + "< ! > Launch allows mimic to quickly escape fights, damaging enemies as they reposition." + Environment.NewLine + Environment.NewLine
-             + "< ! > Chest Slam is a powerful crowd control special, allowing mimic to wipe out weak foes, and stun tougher ones.." + Environment.NewLine + Environment.NewLine;
+        internal static string descriptionText = "Once a survivor of UES [?ExPUNGED??], Mimic is a being reborn by tar with a powerful and mobile close ranged kit." + Environment.NewLine + Environment.NewLine
+             + "< ! > Mimic's Blunderbuss is a powerful close ranged slugger that tars enemies. Firing when enemies are nearby grants additional damage and an escape buff." + Environment.NewLine + Environment.NewLine
+             + "< ! > Bombs are weak on their own, but ignite enemies. Using bombs with stacks of bomb buffs consumes them and increases damage." + Environment.NewLine + Environment.NewLine
+             + "< ! > Launch allows mimic to quickly escape fights, damaging enemies as they reposition. Using launch with an escape buff increases vertical leap." + Environment.NewLine + Environment.NewLine
+             + "< ! > Chest Slam is a powerful crowd control attack, allowing mimic to wipe out weak foes, and stun tougher ones. Hitting enemies grants stackable bomb buffs." + Environment.NewLine + Environment.NewLine;
 
         internal const float swordDamageCoefficient = 2.8f;
 

@@ -94,9 +94,9 @@ namespace TarMimic.Modules.Survivors
 
             SkillDef shootSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = prefix + "_HENRY_BODY_SECONDARY_GUN_NAME",
-                skillNameToken = prefix + "_HENRY_BODY_SECONDARY_GUN_NAME",
-                skillDescriptionToken = prefix + "_HENRY_BODY_SECONDARY_GUN_DESCRIPTION",
+                skillName = prefix + "_HENRY_BODY_PRIMARY_GUN_NAME",
+                skillNameToken = prefix + "_HENRY_BODY_PRIMARY_GUN_NAME",
+                skillDescriptionToken = prefix + "_HENRY_BODY_PRIMARY_GUN_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Shoot)),
                 activationStateMachineName = "Slide",
@@ -122,9 +122,9 @@ namespace TarMimic.Modules.Survivors
 
             SkillDef bombSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = prefix + "_HENRY_BODY_SPECIAL_BOMB_NAME",
-                skillNameToken = prefix + "_HENRY_BODY_SPECIAL_BOMB_NAME",
-                skillDescriptionToken = prefix + "_HENRY_BODY_SPECIAL_BOMB_DESCRIPTION",
+                skillName = prefix + "_HENRY_BODY_SECONDARY_BOMB_NAME",
+                skillNameToken = prefix + "_HENRY_BODY_SECONDARY_BOMB_NAME",
+                skillDescriptionToken = prefix + "_HENRY_BODY_SECONDARY_BOMB_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSpecialIcon"),
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ThrowBomb)),
                 activationStateMachineName = "Slide",
@@ -175,9 +175,9 @@ namespace TarMimic.Modules.Survivors
 
             SkillDef chestRetreatSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = prefix + "_HENRY_BODY_SPECIAL_CHEST_NAME",
-                skillNameToken = prefix + "_HENRY_BODY_SPECIAL_CHEST_NAME",
-                skillDescriptionToken = prefix + "_HENRY_BODY_SPECIAL_CHEST_DESCRIPTION",
+                skillName = prefix + "_HENRY_BODY_SPECIAL_CHEST_SLAM_NAME",
+                skillNameToken = prefix + "_HENRY_BODY_SPECIAL_CHEST_SLAM_NAME",
+                skillDescriptionToken = prefix + "_HENRY_BODY_SPECIAL_CHEST_SLAM_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texUtilityIcon"),
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ChestRetreat)),
                 activationStateMachineName = "Body",
