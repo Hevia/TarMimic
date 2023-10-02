@@ -9,12 +9,30 @@ namespace TarMimic.Modules
         // armor buff gained during roll
         internal static BuffDef armorBuff;
 
+        // Buff gained during special that increases # of bombs
+        internal static BuffDef bombBuff;
+
+        // Buff gained when firing shotgun in close range.
+        internal static BuffDef escapeBuff;
+
         internal static void RegisterBuffs()
         {
             armorBuff = AddNewBuff("HenryArmorBuff",
                 LegacyResourcesAPI.Load<BuffDef>("BuffDefs/HiddenInvincibility").iconSprite, 
                 Color.white, 
                 false, 
+                false);
+
+            bombBuff = AddNewBuff("TarMimicBombBuff",
+                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/HiddenInvincibility").iconSprite,
+                Color.black,
+                true,
+                false);
+
+            escapeBuff = AddNewBuff("TarMimicEscapeBuff",
+                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/HiddenInvincibility").iconSprite,
+                Color.red,
+                false,
                 false);
         }
 

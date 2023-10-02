@@ -1,6 +1,8 @@
 ﻿using EntityStates;
+using HG;
 using RoR2;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace TarMimic.SkillStates
 {
@@ -10,19 +12,19 @@ namespace TarMimic.SkillStates
         public static float procCoefficient = 1f;
         public static float baseDuration = 0.6f;
         public static float force = 800f;
-        public static float recoil = 4f;
-        public static float range = 100f; // prev: 233, 256
+        public static float recoil = 6f;
+        public static float range = 55f; // prev: 100f, 233, 256
         public static GameObject tracerEffectPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/Tracers/TracerGoldGat");
-        public static float minSpread = 2f; // prev: 2f, 0.5f
-        public static float maxSpread = 4f; // prev: 4f, 2f
-        public static uint bulletCount = 6; // prev: 5, 6
-
-
+        public static float minSpread = 6f; // prev: 2f, 0.5f
+        public static float maxSpread = 10f; // prev: 4f, 2f
+        public static uint bulletCount = 7; // prev: 5, 6
+        public static float spreadBloom = 1.5f;
 
         private float duration;
         private float fireTime;
         private bool hasFired;
         private string muzzleString;
+        private float dmgBoost = 0;
 
         public override void OnEnter()
         {
@@ -31,6 +33,21 @@ namespace TarMimic.SkillStates
             this.fireTime = 0.2f * this.duration;
             base.characterBody.SetAimTimer(2f);
             this.muzzleString = "Muzzle";
+
+            SphereSearch sphereSearch = new SphereSearch();
+            sphereSearch.radius = 1;
+            sphereSearch.origin = characterBody.transform.position + this.inputBank.aimDirection;
+            sphereSearch.mask = LayerIndex.entityPrecise.mask;
+            sphereSearch.RefreshCandidates();
+            sphereSearch.FilterCandidatesByDistinctHurtBoxEntities();
+            int numHurtBoxes = sphereSearch.GetHurtBoxes().Length;
+            dmgBoost = numHurtBoxes;
+
+            if (NetworkServer.active && numHurtBoxes > 0)
+            {
+                base.characterBody.AddTimedBuff(Modules.Buffs.escapeBuff, 10f);
+            }
+
 
             base.PlayAnimation("LeftArm, Override", "ShootGun", "ShootGun.playbackRate", 1.8f);
         }
@@ -46,7 +63,7 @@ namespace TarMimic.SkillStates
             {
                 this.hasFired = true;
 
-                base.characterBody.AddSpreadBloom(1.5f);
+                base.characterBody.AddSpreadBloom(spreadBloom);
                 EffectManager.SimpleMuzzleFlash(EntityStates.Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, base.gameObject, this.muzzleString, false);
                 Util.PlaySound("HenryShootPistol", base.gameObject);
 
@@ -55,14 +72,11 @@ namespace TarMimic.SkillStates
                     Ray aimRay = base.GetAimRay();
                     base.AddRecoil(-1f * Shoot.recoil, -2f * Shoot.recoil, -0.5f * Shoot.recoil, 0.5f * Shoot.recoil);
 
-                    // TODO: Make configurable
-                    float spread = 5.5f;
-
                     var bulletAttack = new BulletAttack
                     {
                         aimVector = aimRay.direction,
                         origin = aimRay.origin,
-                        damage = Shoot.damageCoefficient * this.damageStat,
+                        damage = Shoot.damageCoefficient * (this.damageStat + dmgBoost),
                         damageColorIndex = DamageColorIndex.Default,
                         damageType = DamageType.ClayGoo,
                         falloffModel = BulletAttack.FalloffModel.Buckshot,
@@ -75,13 +89,13 @@ namespace TarMimic.SkillStates
                         smartCollision = false,
                         procChainMask = default(ProcChainMask),
                         procCoefficient = procCoefficient,
-                        radius = 1f,
+                        radius = 2f,
                         sniper = false,
                         stopperMask = LayerIndex.CommonMasks.bullet,
                         weapon = null,
                         tracerEffectPrefab = Shoot.tracerEffectPrefab,
-                        spreadPitchScale = 0f,
-                        spreadYawScale = 0f,
+                        spreadPitchScale = 0.7f, // prev: 1 0f
+                        spreadYawScale = 0.7f, //prev 1 0f,
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
                         hitEffectPrefab = EntityStates.Commando.CommandoWeapon.FireBarrage.hitEffectPrefab,
                         HitEffectNormal = false
@@ -100,6 +114,11 @@ namespace TarMimic.SkillStates
 
                     bulletAttack.minSpread = minSpread * 1.45f; // prev: spread / 1.45
                     bulletAttack.maxSpread = maxSpread * 2f; // prev: spread
+                    bulletAttack.bulletCount = (uint)Mathf.FloorToInt(bulletCount / 2f);
+                    bulletAttack.Fire();
+
+                    bulletAttack.minSpread = minSpread * 2f; // prev: spread / 1.45
+                    bulletAttack.maxSpread = maxSpread * 4f; // prev: spread
                     bulletAttack.bulletCount = (uint)Mathf.FloorToInt(bulletCount / 2f);
                     bulletAttack.Fire();
                 }

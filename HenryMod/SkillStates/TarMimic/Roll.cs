@@ -1,6 +1,7 @@
 ﻿using EntityStates;
 using RoR2;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 
 namespace TarMimic.SkillStates
@@ -14,6 +15,7 @@ namespace TarMimic.SkillStates
 
         public static string dodgeSoundString = "HenryRoll";
         public static float dodgeFOV = EntityStates.Commando.DodgeState.dodgeFOV;
+        public static GameObject impactEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Bandit2/Bandit2SmokeBomb.prefab").WaitForCompletion();
 
         private Vector3 rollDirection;
         private readonly float minimumY = 4;
@@ -21,34 +23,72 @@ namespace TarMimic.SkillStates
         private readonly float forwardVelocity = 3;
         private readonly float upwardVelocity = 5;
 
+        public static float baseRadius = 3f;
+        public static float baseForce = 10f;
+        public static float dmgMod = 10f;
+
+        private float escapeBoost = 1f;
+
         public override void OnEnter()
         {
             base.OnEnter();
             base.characterBody.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
+
+            if (NetworkServer.active && base.characterBody.HasBuff(Modules.Buffs.escapeBuff)) {
+                base.characterBody.RemoveBuff(Modules.Buffs.escapeBuff);
+                escapeBoost = 5f;
+            } else {
+                escapeBoost = 1f;
+            }
+
+            Vector3 footPosition = base.characterBody.footPosition;
+            EffectManager.SpawnEffect(impactEffect, new EffectData
+            {
+                origin = footPosition,
+                scale = 1
+            }, transmit: true);
+
+            new BlastAttack
+            {
+                attacker = base.gameObject,
+                baseDamage = damageStat * (dmgMod + escapeBoost), // 5f 1f
+                baseForce = baseForce,
+                bonusForce = Vector3.back, // up
+                crit = false, //isCritAuthority,
+                damageType = DamageType.ClayGoo,
+                falloffModel = BlastAttack.FalloffModel.None, // None
+                procCoefficient = 0.5f,
+                radius = baseRadius + escapeBoost, 
+                position = base.characterBody.footPosition,
+                attackerFiltering = AttackerFiltering.NeverHitSelf,
+                impactEffect = EffectCatalog.FindEffectIndexFromPrefab(impactEffect),
+                teamIndex = base.teamComponent.teamIndex,
+            }.Fire();
 
             Ray aimRay = GetAimRay();
             Vector3 direction = aimRay.direction;
             if (base.isAuthority)
             {
                 base.characterBody.isSprinting = false;
-                direction.y = Mathf.Max(direction.y, minimumY);
+                direction.y = Mathf.Max(direction.y, (minimumY + escapeBoost));
                 Vector3 val = direction.normalized * aimVelocity * moveSpeedStat;
-                Vector3 val2 = Vector3.up * upwardVelocity;
+                Vector3 val2 = Vector3.up * (upwardVelocity + escapeBoost);
                 Vector3 val3 = new Vector3(direction.x, 0f, direction.z);
                 Vector3 val4 = val3.normalized * forwardVelocity;
                 base.characterMotor.Motor.ForceUnground();
                 base.characterMotor.velocity = val + val2 + val4;
             }
 
+            if (NetworkServer.active)
+            {
+                base.characterBody.armor += 25f;
+                base.characterBody.baseArmor += 25f;
+            }
+
             base.characterDirection.moveVector = direction;
 
             base.PlayAnimation("FullBody, Override", "Roll", "Roll.playbackRate", Roll.duration);
             Util.PlaySound(Roll.dodgeSoundString, base.gameObject);
-
-            if (NetworkServer.active)
-            {
-                base.characterBody.AddTimedBuff(Modules.Buffs.armorBuff, 7f * Roll.duration);
-            }
         }
 
         public override void FixedUpdate()

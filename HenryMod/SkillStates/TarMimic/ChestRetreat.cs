@@ -15,8 +15,8 @@ namespace TarMimic.SkillStates
         public static float initialSpeedCoefficient = 2.0f; // prev: 1.25 4 2.5
         public static float finalSpeedCoefficient = 6.0f; // prev: 2  2 2
         public static float rollYOffset = -1.25f; //prev: 1.25 0.25 0.55f
-        public static float baseRadius = 10f;
-        public static float baseForce = 50f;
+        public static float baseRadius = 5f;
+        public static float baseForce = 25f;
         public static float dmgMod = 20f;
         
 
@@ -132,6 +132,12 @@ namespace TarMimic.SkillStates
                     foreach (BlastAttack.HitPoint item in result.hitPoints)
                     {
                         var hurtBox = item.hurtBox;
+
+                        if (NetworkServer.active)
+                        {
+                           base.characterBody.AddBuff(Modules.Buffs.bombBuff);
+                        }
+                       
 
                         if (hurtBox != null)
                         {
