@@ -8,7 +8,7 @@ namespace TarMimic.SkillStates
 {
     public class Roll : BaseSkillState
     {
-        public static float duration = 0.5f;
+        public static float duration = 2.5f; // 0.5
         public static float initialSpeedCoefficient = 1.25f; // prev: 4 2.5
         public static float finalSpeedCoefficient = 2.0f; // prev: 2 2
         public static float rollYOffset = 0.75f; //prev: 0.35 1.25 0.25 0.55f
@@ -20,7 +20,7 @@ namespace TarMimic.SkillStates
         private Vector3 rollDirection;
         private readonly float minimumY = 6; // 6, 4
         private readonly float aimVelocity = 3; // 4, 2
-        private readonly float forwardVelocity = 40; // prev: 4, 6, 3
+        private readonly float forwardVelocity = 30; // prev: 4, 6, 3
         private readonly float upwardVelocity = 7f; // prev: 8, 10 5
 
         public static float baseRadius = 3f;
