@@ -20,8 +20,8 @@ namespace TarMimic.SkillStates
         private Vector3 rollDirection;
         private readonly float minimumY = 6; // 6, 4
         private readonly float aimVelocity = 3; // 4, 2
-        private readonly float forwardVelocity = 4; // prev: 6, 3
-        private readonly float upwardVelocity = 8; // prev: 10 5
+        private readonly float forwardVelocity = 40; // prev: 4, 6, 3
+        private readonly float upwardVelocity = 7f; // prev: 8, 10 5
 
         public static float baseRadius = 3f;
         public static float baseForce = 10f;
@@ -35,7 +35,7 @@ namespace TarMimic.SkillStates
             base.characterBody.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
 
             if (NetworkServer.active && base.characterBody.HasBuff(Modules.Buffs.escapeBuff)) {
-                escapeBoost = 5f;
+                escapeBoost = 3f;
             } else {
                 escapeBoost = 1f;
             }

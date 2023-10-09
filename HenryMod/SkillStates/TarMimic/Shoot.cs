@@ -17,7 +17,7 @@ namespace TarMimic.SkillStates
         public static GameObject tracerEffectPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/Tracers/TracerGoldGat");
         public static float minSpread = 6f; // prev: 2f, 0.5f
         public static float maxSpread = 10f; // prev: 4f, 2f
-        public static uint bulletCount = 5; // prev: 7, 5, 6
+        public static uint bulletCount = 6; // prev: 5, 7, 5, 6
         public static float spreadBloom = 1.5f;
 
         private float duration;
