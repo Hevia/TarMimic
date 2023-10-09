@@ -30,11 +30,31 @@ namespace TarMimic.SkillStates
         private Animator animator;
         private Vector3 rollDirection;
         private Vector3 previousPosition;
+        private float slamAcceleration = 1f;
+        private readonly int minimumY = 4;
+        private readonly float upwardVelocity = 5f;
+        private readonly float escapeBoost = 1f;
 
         public override void OnEnter()
         {
             base.OnEnter();
             this.animator = base.GetModelAnimator();
+
+            // Have Mimic move slightly upward before slamming down
+            Ray aimRay = GetAimRay();
+            Vector3 direction = aimRay.direction;
+            if (base.isAuthority)
+            {
+                base.characterBody.isSprinting = false;
+                direction.y = Mathf.Max(direction.y, minimumY);
+                Vector3 upMotion = Vector3.up * (upwardVelocity + escapeBoost);
+                base.characterMotor.Motor.ForceUnground();
+                base.characterMotor.velocity = upMotion;
+            }
+
+            base.characterDirection.moveVector = direction;
+
+            // ---- End move up ----
 
             if (base.isAuthority && base.inputBank && base.characterDirection)
             {
@@ -66,13 +86,14 @@ namespace TarMimic.SkillStates
 
         private void RecalculateRollSpeed()
         {
-            this.rollSpeed = this.moveSpeedStat * Mathf.Lerp(Roll.initialSpeedCoefficient, Roll.finalSpeedCoefficient, base.fixedAge / Roll.duration);
+            this.rollSpeed = this.moveSpeedStat * Mathf.Lerp(Roll.initialSpeedCoefficient, Roll.finalSpeedCoefficient, base.fixedAge / Roll.duration) + slamAcceleration;
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
             this.RecalculateRollSpeed();
+            slamAcceleration++; // We want to increase the speed of the slam as you slam down
 
             if (base.characterDirection) base.characterDirection.forward = this.rollDirection;
             if (base.cameraTargetParams) base.cameraTargetParams.fovOverride = Mathf.Lerp(Roll.dodgeFOV, 60f, base.fixedAge / Roll.duration);
@@ -88,7 +109,6 @@ namespace TarMimic.SkillStates
             }
             this.previousPosition = base.transform.position;
 
-            // prev: based on roll duration
             if (base.isAuthority  && base.characterMotor.isGrounded)
             {
                 this.outer.SetNextStateToMain();
@@ -133,9 +153,9 @@ namespace TarMimic.SkillStates
                     {
                         var hurtBox = item.hurtBox;
 
-                        if (NetworkServer.active)
+                        if (NetworkServer.active && !base.characterBody.HasBuff(Modules.Buffs.bombBuff))
                         {
-                           base.characterBody.AddBuff(Modules.Buffs.bombBuff);
+                           base.characterBody.AddTimedBuff(Modules.Buffs.bombBuff, 10f);
                         }
                        
 

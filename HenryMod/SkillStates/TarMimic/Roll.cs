@@ -18,14 +18,14 @@ namespace TarMimic.SkillStates
         public static GameObject impactEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Bandit2/Bandit2SmokeBomb.prefab").WaitForCompletion();
 
         private Vector3 rollDirection;
-        private readonly float minimumY = 4;
-        private readonly float aimVelocity = 2;
-        private readonly float forwardVelocity = 3;
-        private readonly float upwardVelocity = 5;
+        private readonly float minimumY = 6; // 6, 4
+        private readonly float aimVelocity = 3; // 4, 2
+        private readonly float forwardVelocity = 4; // prev: 6, 3
+        private readonly float upwardVelocity = 8; // prev: 10 5
 
         public static float baseRadius = 3f;
         public static float baseForce = 10f;
-        public static float dmgMod = 10f;
+        public static float dmgMod = 5f; // prev: 10
 
         private float escapeBoost = 1f;
 
@@ -35,7 +35,6 @@ namespace TarMimic.SkillStates
             base.characterBody.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
 
             if (NetworkServer.active && base.characterBody.HasBuff(Modules.Buffs.escapeBuff)) {
-                base.characterBody.RemoveBuff(Modules.Buffs.escapeBuff);
                 escapeBoost = 5f;
             } else {
                 escapeBoost = 1f;
@@ -51,13 +50,13 @@ namespace TarMimic.SkillStates
             new BlastAttack
             {
                 attacker = base.gameObject,
-                baseDamage = damageStat * (dmgMod + escapeBoost), // 5f 1f
+                baseDamage = damageStat * (dmgMod + escapeBoost),
                 baseForce = baseForce,
                 bonusForce = Vector3.back, // up
                 crit = false, //isCritAuthority,
                 damageType = DamageType.ClayGoo,
-                falloffModel = BlastAttack.FalloffModel.None, // None
-                procCoefficient = 0.5f,
+                falloffModel = BlastAttack.FalloffModel.Linear, // None
+                procCoefficient = 0.1f, // 0.5
                 radius = baseRadius + escapeBoost, 
                 position = base.characterBody.footPosition,
                 attackerFiltering = AttackerFiltering.NeverHitSelf,

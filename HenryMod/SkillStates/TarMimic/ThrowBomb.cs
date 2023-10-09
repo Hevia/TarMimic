@@ -24,10 +24,9 @@ namespace TarMimic.SkillStates
 
         public override void OnEnter()
         {
-            while (base.characterBody.HasBuff(Modules.Buffs.bombBuff))
+            if (base.characterBody.HasBuff(Modules.Buffs.bombBuff))
             {
-                base.characterBody.RemoveBuff(Modules.Buffs.bombBuff);
-                dmgBoost += 1f;
+                dmgBoost += 10f;
             }
 
             base.projectilePrefab = Modules.Projectiles.bombPrefab;

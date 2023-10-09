@@ -9,22 +9,21 @@ namespace TarMimic.SkillStates
     public class Shoot : BaseSkillState
     {
         public static float damageCoefficient = Modules.StaticValues.gunDamageCoefficient;
-        public static float procCoefficient = 1f;
+        public static float procCoefficient = 0.4f; // prev 1
         public static float baseDuration = 0.6f;
-        public static float force = 800f;
+        public static float force = 100f; // prev: 800f
         public static float recoil = 6f;
         public static float range = 55f; // prev: 100f, 233, 256
         public static GameObject tracerEffectPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/Tracers/TracerGoldGat");
         public static float minSpread = 6f; // prev: 2f, 0.5f
         public static float maxSpread = 10f; // prev: 4f, 2f
-        public static uint bulletCount = 7; // prev: 5, 6
+        public static uint bulletCount = 5; // prev: 7, 5, 6
         public static float spreadBloom = 1.5f;
 
         private float duration;
         private float fireTime;
         private bool hasFired;
         private string muzzleString;
-        private float dmgBoost = 0;
 
         public override void OnEnter()
         {
@@ -35,17 +34,16 @@ namespace TarMimic.SkillStates
             this.muzzleString = "Muzzle";
 
             SphereSearch sphereSearch = new SphereSearch();
-            sphereSearch.radius = 4;
+            sphereSearch.radius = 2; // prev 4
             sphereSearch.origin = characterBody.transform.position + this.inputBank.aimDirection;
             sphereSearch.mask = LayerIndex.entityPrecise.mask;
             sphereSearch.RefreshCandidates();
             sphereSearch.FilterCandidatesByDistinctHurtBoxEntities();
             int numHurtBoxes = sphereSearch.GetHurtBoxes().Length;
-            dmgBoost = numHurtBoxes;
 
             if (NetworkServer.active && numHurtBoxes > 0)
             {
-                base.characterBody.AddTimedBuff(Modules.Buffs.escapeBuff, 10f);
+                base.characterBody.AddTimedBuff(Modules.Buffs.escapeBuff, 2f);
             }
 
 
@@ -76,7 +74,7 @@ namespace TarMimic.SkillStates
                     {
                         aimVector = aimRay.direction,
                         origin = aimRay.origin,
-                        damage = Shoot.damageCoefficient * (this.damageStat + dmgBoost),
+                        damage = Shoot.damageCoefficient * this.damageStat,
                         damageColorIndex = DamageColorIndex.Default,
                         damageType = DamageType.ClayGoo,
                         falloffModel = BulletAttack.FalloffModel.Buckshot,

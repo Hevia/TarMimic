@@ -32,7 +32,7 @@ namespace TarMimic.Modules
             escapeBuff = AddNewBuff("TarMimicEscapeBuff",
                 LegacyResourcesAPI.Load<BuffDef>("BuffDefs/HiddenInvincibility").iconSprite,
                 Color.red,
-                false,
+                true,
                 false);
         }
 
