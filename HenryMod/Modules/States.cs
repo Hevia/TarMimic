@@ -15,7 +15,9 @@ namespace TarMimic.Modules
 
             Modules.Content.AddEntityState(typeof(ChestRetreat));
 
-            Modules.Content.AddEntityState(typeof(ThrowBomb));
+            Modules.Content.AddEntityState(typeof(ThrowFireBomb));
+
+            Modules.Content.AddEntityState(typeof(ThrowTarBomb));
         }
     }
 }

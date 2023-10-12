@@ -14,6 +14,6 @@ namespace TarMimic.Modules
 
         internal const float gunDamageCoefficient = 1.0f; // prev 1.2f, 3.2f
 
-        internal const float bombDamageCoefficient = 16f;
+        internal const float bombDamageCoefficient = 1.6f;
     }
 }
