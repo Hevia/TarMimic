@@ -4,9 +4,9 @@ using RoR2;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace TarMimic.SkillStates
+namespace TarMimic.SkillStates.Primary
 {
-    public class Shoot : BaseSkillState
+    public class TarShotgun : BaseSkillState
     {
         public static float damageCoefficient = Modules.StaticValues.gunDamageCoefficient;
         public static float procCoefficient = 0.4f; // prev 1
@@ -28,7 +28,7 @@ namespace TarMimic.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
-            this.duration = Shoot.baseDuration / this.attackSpeedStat;
+            this.duration = TarShotgun.baseDuration / this.attackSpeedStat;
             this.fireTime = 0.2f * this.duration;
             base.characterBody.SetAimTimer(2f);
             this.muzzleString = "Muzzle";
@@ -68,18 +68,18 @@ namespace TarMimic.SkillStates
                 if (base.isAuthority)
                 {
                     Ray aimRay = base.GetAimRay();
-                    base.AddRecoil(-1f * Shoot.recoil, -2f * Shoot.recoil, -0.5f * Shoot.recoil, 0.5f * Shoot.recoil);
+                    base.AddRecoil(-1f * TarShotgun.recoil, -2f * TarShotgun.recoil, -0.5f * TarShotgun.recoil, 0.5f * TarShotgun.recoil);
 
                     var bulletAttack = new BulletAttack
                     {
                         aimVector = aimRay.direction,
                         origin = aimRay.origin,
-                        damage = Shoot.damageCoefficient * this.damageStat,
+                        damage = TarShotgun.damageCoefficient * this.damageStat,
                         damageColorIndex = DamageColorIndex.Default,
                         damageType = DamageType.ClayGoo,
                         falloffModel = BulletAttack.FalloffModel.Buckshot,
-                        maxDistance = Shoot.range,
-                        force = Shoot.force,
+                        maxDistance = TarShotgun.range,
+                        force = TarShotgun.force,
                         hitMask = LayerIndex.CommonMasks.bullet,
                         isCrit = base.RollCrit(),
                         owner = base.gameObject,
@@ -91,7 +91,7 @@ namespace TarMimic.SkillStates
                         sniper = false,
                         stopperMask = LayerIndex.CommonMasks.bullet,
                         weapon = null,
-                        tracerEffectPrefab = Shoot.tracerEffectPrefab,
+                        tracerEffectPrefab = TarShotgun.tracerEffectPrefab,
                         spreadPitchScale = 0.7f, // prev: 1 0f
                         spreadYawScale = 0.7f, //prev 1 0f,
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,

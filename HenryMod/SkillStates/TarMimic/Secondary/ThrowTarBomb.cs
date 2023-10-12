@@ -5,7 +5,7 @@ using RoR2;
 using RoR2.Projectile;
 using UnityEngine;
 
-namespace TarMimic.SkillStates
+namespace TarMimic.SkillStates.Secondary
 {
     public class ThrowTarBomb : GenericProjectileBaseState
     {

@@ -153,7 +153,7 @@ namespace TarMimic.SkillStates
                     {
                         var hurtBox = item.hurtBox;
 
-                        if (NetworkServer.active && !base.characterBody.HasBuff(Modules.Buffs.bombBuff))
+                        if (NetworkServer.active)
                         {
                            base.characterBody.AddTimedBuff(Modules.Buffs.bombBuff, 10f);
                         }

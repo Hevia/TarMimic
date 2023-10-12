@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using TarMimicMod;
 using UnityEngine;
+using TarMimic.SkillStates.Secondary;
+using TarMimic.SkillStates.Primary;
 
 namespace TarMimic.Modules.Survivors
 {
@@ -98,7 +100,7 @@ namespace TarMimic.Modules.Survivors
                 skillNameToken = prefix + "_HENRY_BODY_PRIMARY_GUN_NAME",
                 skillDescriptionToken = prefix + "_HENRY_BODY_PRIMARY_GUN_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Shoot)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(TarShotgun)),
                 activationStateMachineName = "Slide",
                 baseMaxStock = 1,
                 baseRechargeInterval = 0.90f,
@@ -119,13 +121,40 @@ namespace TarMimic.Modules.Survivors
 
             Modules.Skills.AddPrimarySkills(bodyPrefab, shootSkillDef);
 
+            SkillDef tarRifleDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "_HENRY_BODY_PRIMARY_GUN_NAME",
+                skillNameToken = prefix + "_HENRY_BODY_PRIMARY_GUN_NAME",
+                skillDescriptionToken = prefix + "_HENRY_BODY_PRIMARY_GUN_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(TarRifle)),
+                activationStateMachineName = "Slide",
+                baseMaxStock = 1,
+                baseRechargeInterval = 0.80f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = true, // false
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = true,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = true, // false
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1
+            });
+
+
+            Modules.Skills.AddPrimarySkills(bodyPrefab, tarRifleDef);
+
             SkillDef fireBombSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = prefix + "_HENRY_BODY_SECONDARY_BOMB_NAME",
                 skillNameToken = prefix + "_HENRY_BODY_SECONDARY_BOMB_NAME",
                 skillDescriptionToken = prefix + "_HENRY_BODY_SECONDARY_BOMB_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSpecialIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ThrowFireBomb)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(ThrowFireBomb)),
                 activationStateMachineName = "Slide",
                 baseMaxStock = 1,
                 baseRechargeInterval = 5f,
@@ -151,7 +180,7 @@ namespace TarMimic.Modules.Survivors
                 skillNameToken = prefix + "_HENRY_BODY_SECONDARY_BOMB_NAME",
                 skillDescriptionToken = prefix + "_HENRY_BODY_SECONDARY_BOMB_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSpecialIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ThrowTarBomb)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(ThrowTarBomb)),
                 activationStateMachineName = "Slide",
                 baseMaxStock = 1,
                 baseRechargeInterval = 5f,
