@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 
-namespace TarMimic.SkillStates
+namespace TarMimic.SkillStates.Special
 {
     public class ChestRetreat : BaseSkillState
     {
@@ -155,7 +155,7 @@ namespace TarMimic.SkillStates
 
                         if (NetworkServer.active)
                         {
-                           base.characterBody.AddTimedBuff(Modules.Buffs.bombBuff, 10f);
+                           base.characterBody.AddTimedBuff(Modules.Buffs.bombBuff, 5f);
                         }
                        
 

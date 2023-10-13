@@ -8,6 +8,7 @@ using TarMimicMod;
 using UnityEngine;
 using TarMimic.SkillStates.Secondary;
 using TarMimic.SkillStates.Primary;
+using TarMimic.SkillStates.Special;
 
 namespace TarMimic.Modules.Survivors
 {
@@ -233,7 +234,7 @@ namespace TarMimic.Modules.Survivors
                 skillNameToken = prefix + "_HENRY_BODY_SPECIAL_CHEST_SLAM_NAME",
                 skillDescriptionToken = prefix + "_HENRY_BODY_SPECIAL_CHEST_SLAM_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texUtilityIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ChestRetreat)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(ChestRetreat)),
                 activationStateMachineName = "Body",
                 baseMaxStock = 1,
                 baseRechargeInterval = 7f,
@@ -251,7 +252,32 @@ namespace TarMimic.Modules.Survivors
                 stockToConsume = 1
             });
 
+            SkillDef chestSapSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "_HENRY_BODY_SPECIAL_CHEST_SLAM_NAME",
+                skillNameToken = prefix + "_HENRY_BODY_SPECIAL_CHEST_SLAM_NAME",
+                skillDescriptionToken = prefix + "_HENRY_BODY_SPECIAL_CHEST_SLAM_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texUtilityIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(ChestSap)),
+                activationStateMachineName = "Body",
+                baseMaxStock = 1,
+                baseRechargeInterval = 7f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = true,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = false,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = true,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1
+            });
+
             Modules.Skills.AddSpecialSkills(bodyPrefab, chestRetreatSkillDef);
+            Modules.Skills.AddSpecialSkills(bodyPrefab, chestSapSkillDef);
         }
         
         public override void InitializeSkins()

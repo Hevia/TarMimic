@@ -13,10 +13,13 @@ namespace TarMimic.Modules
         internal const float swordDamageCoefficient = 2.8f;
 
         internal const float gunDamageCoefficient = 1.0f; // prev 1.2f, 3.2f
+        internal const float tarRifleDamageCoeff = 1.2f; // prev 1.2f, 3.2f
 
         internal const float bombDamageCoefficient = 1.6f;
         internal const float tarBombDamageCoeff = 3.2f;
         internal const int numberFireBombs = 8;
         internal const int numberTarBombs = 3;
+
+        internal const float chestSapLength = 3f;
     }
 }

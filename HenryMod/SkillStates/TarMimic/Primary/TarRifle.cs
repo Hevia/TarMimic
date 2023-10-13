@@ -10,7 +10,7 @@ namespace TarMimic.SkillStates.Primary
 {
     public class TarRifle : BaseSkillState
     {
-        public static float damageCoefficient = Modules.StaticValues.gunDamageCoefficient;
+        public static float damageCoefficient = Modules.StaticValues.tarRifleDamageCoeff;
         public static float procCoefficient = 0.4f;
         public static float baseDuration = 0.6f;
         public static float force = 100f; 
@@ -33,7 +33,7 @@ namespace TarMimic.SkillStates.Primary
         public override void OnEnter()
         {
             base.OnEnter();
-            this.duration = TarShotgun.baseDuration / this.attackSpeedStat;
+            this.duration = TarRifle.baseDuration / this.attackSpeedStat;
             this.fireTime = 0.2f * this.duration;
             base.characterBody.SetAimTimer(2f);
             this.muzzleString = "Muzzle";
@@ -64,13 +64,68 @@ namespace TarMimic.SkillStates.Primary
 
                     val.projectilePrefab = oilPrefab;
                     val.position = aimRay.origin;
-                    val.rotation = Util.QuaternionSafeLookRotation(aimRay.direction);
+                    val.rotation = Util.QuaternionSafeLookRotation(Util.ApplySpread(aimRay.direction, 0f, 5f, 1f, 1f, 0f, 0f));
                     val.owner = this.gameObject;
                     val.damage = this.damageStat * damageCoefficient;
                     val.damageTypeOverride = DamageType.ClayGoo;
-                    val.force = force;
+                    val.force = Random.Range(100f, 140f);
                     val.crit = this.RollCrit();
-                    val.speedOverride = 500f;
+                    val.speedOverride = Random.Range(500f, 520f);
+                    ProjectileManager.instance.FireProjectile(val);
+
+                    val.projectilePrefab = oilPrefab;
+                    val.position = aimRay.origin;
+                    val.rotation = Util.QuaternionSafeLookRotation(Util.ApplySpread(aimRay.direction, 0f, 5f, 1f, 1f, 0f, 0f));
+                    val.owner = this.gameObject;
+                    val.damage = this.damageStat * damageCoefficient;
+                    val.damageTypeOverride = DamageType.ClayGoo;
+                    val.force = Random.Range(100f, 140f);
+                    val.crit = this.RollCrit();
+                    val.speedOverride = Random.Range(500f, 520f);
+                    ProjectileManager.instance.FireProjectile(val);
+
+                    val.projectilePrefab = oilPrefab;
+                    val.position = aimRay.origin;
+                    val.rotation = Util.QuaternionSafeLookRotation(Util.ApplySpread(aimRay.direction, 0f, 5f, 1f, 1f, 0f, 0f));
+                    val.owner = this.gameObject;
+                    val.damage = this.damageStat * damageCoefficient;
+                    val.damageTypeOverride = DamageType.ClayGoo;
+                    val.force = Random.Range(100f, 140f);
+                    val.crit = this.RollCrit();
+                    val.speedOverride = Random.Range(500f, 520f);
+                    ProjectileManager.instance.FireProjectile(val);
+
+                    val.projectilePrefab = oilPrefab;
+                    val.position = aimRay.origin;
+                    val.rotation = Util.QuaternionSafeLookRotation(Util.ApplySpread(aimRay.direction, 0f, 5f, 1f, 1f, 0f, 0f));
+                    val.owner = this.gameObject;
+                    val.damage = this.damageStat * damageCoefficient;
+                    val.damageTypeOverride = DamageType.ClayGoo;
+                    val.force = Random.Range(100f, 140f);
+                    val.crit = this.RollCrit();
+                    val.speedOverride = Random.Range(500f, 520f);
+                    ProjectileManager.instance.FireProjectile(val);
+
+                    val.projectilePrefab = oilPrefab;
+                    val.position = aimRay.origin;
+                    val.rotation = Util.QuaternionSafeLookRotation(Util.ApplySpread(aimRay.direction, 0f, 5f, 1f, 1f, 0f, 0f));
+                    val.owner = this.gameObject;
+                    val.damage = this.damageStat * damageCoefficient;
+                    val.damageTypeOverride = DamageType.ClayGoo;
+                    val.force = Random.Range(100f, 140f);
+                    val.crit = this.RollCrit();
+                    val.speedOverride = Random.Range(500f, 520f);
+                    ProjectileManager.instance.FireProjectile(val);
+
+                    val.projectilePrefab = oilPrefab;
+                    val.position = aimRay.origin;
+                    val.rotation = Util.QuaternionSafeLookRotation(Util.ApplySpread(aimRay.direction, 0f, 5f, 1f, 1f, 0f, 0f));
+                    val.owner = this.gameObject;
+                    val.damage = this.damageStat * damageCoefficient;
+                    val.damageTypeOverride = DamageType.ClayGoo;
+                    val.force = Random.Range(100f, 140f);
+                    val.crit = this.RollCrit();
+                    val.speedOverride = Random.Range(500f, 520f);
                     ProjectileManager.instance.FireProjectile(val);
                 }
             }
